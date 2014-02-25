@@ -4,7 +4,7 @@ training_v<-c()
 test_i<-c()
 test_j<-c()
 test_v<-c()
-for(doc in 1801:1850){ # change here
+for(doc in 1890:2484){ # change here # no doc 1889
   wordcounts<-dtm$v[which(dtm$i==doc)]
   termsindex<-dtm$j[which(dtm$i==doc)]
   for(word in 1: length(wordcounts)){
