@@ -3,6 +3,6 @@ slice<-length(g)
 topic<-30
 words<-dtm$ncol
 docs<-dtm$nrow
-a0<-0.3 #?
-b0<-0.1 #?
+a0<-3.5 
+b0<-3 
 sd0<-1
