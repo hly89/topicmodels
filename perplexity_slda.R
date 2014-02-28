@@ -22,3 +22,17 @@ for(i in 1:17){
 }
 
 p_slda<-exp(-p1/p2)
+
+# perplexity for all docs in LDA(gibbs)
+p1<-0
+#p2<-docs*300
+p2<-sum(dtm_test[g[[1]]])
+post<-posterior(slda[[1]])
+for(i in 1:1){
+  m<-length(g[[i]]) # doc number in slice i
+  for(j in 1:m){ # for each doc
+    p1<-p1+log_p(g[[i]][j],dtm_test,post$topics,post$terms)
+  }
+}
+
+p<-exp(-p1/p2)

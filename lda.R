@@ -25,3 +25,5 @@ per_lda<-vector("numeric",length(g))
 for(per_i in 1:length(g)){
   per_lda[per_i]<-perplexity(gibbs,dtm_test[g[[per_i]],])
 }
+
+perplexity_plot<-ggplot(data=per, aes(x=time,y=perplexity, group=type, colour=type))+geom_line()+geom_point()
