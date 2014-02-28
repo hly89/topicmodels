@@ -163,6 +163,63 @@ up_tau5<-function(N,beta,beta0,theta,tau){
   return(exp_candpre)
 }
 
+up_tau6<-function(N,beta,beta0,theta,tau){
+  count<-0
+  exp_candpre<-tau
+  #postpre<-ls(exp_candpre,theta)+lb(beta,beta0,exp_candpre/5)+prior_tau(exp_candpre)
+  for(j in 1:1){
+    #j<-3
+    postpre<-ls5(exp_candpre[j,],theta,j)+lb5(beta,beta0,exp_candpre[j,]/6,j)+prior_tau(exp_candpre[j,])
+    for(i in 1:N){
+      for(thin in 1:10){
+        exp_cand<-exp(pro_tau5(j)+log(exp_candpre)) }
+      post<-ls5(exp_cand[j,],theta,j)+lb5(beta,beta0,exp_cand[j,]/6,j)+prior_tau(exp_cand[j,])
+      a<-post-postpre
+      while(a>700){
+        exp_cand<-exp(pro_tau5(j)+log(exp_candpre))
+        post<-ls5(exp_cand[j,],theta,j)+lb5(beta,beta0,exp_cand[j,]/6,j)+prior_tau(exp_cand[j,])
+        a<-post-postpre
+      }
+      appro<-exp(a)
+      #print(appro)
+      appro<-min(appro,1)
+      if(runif(1)<appro){
+        postpre<-post
+        exp_candpre<-exp_cand
+        count<-count+1
+      }
+      
+    }
+    while(count<0.17*N){
+      for(i in 1:N){
+        for(thin in 1:10){
+          exp_cand<-exp(pro_tau5(j)+log(exp_candpre)) }
+        post<-ls5(exp_cand[j,],theta,j)+lb5(beta,beta0,exp_cand[j,]/6,j)+prior_tau(exp_cand[j,])
+        a<-post-postpre
+        while(a>700){
+          exp_cand<-exp(pro_tau5(j)+log(exp_candpre))
+          post<-ls5(exp_cand[j,],theta,j)+lb5(beta,beta0,exp_cand[j,]/6,j)+prior_tau(exp_cand[j,])
+          a<-post-postpre
+        }
+        appro<-exp(a)
+        #print(appro)
+        appro<-min(appro,1)
+        if(runif(1)<appro){
+          postpre<-post
+          exp_candpre<-exp_cand
+          count<-count+1
+        }
+        
+      }
+    }
+    cat("accept for slice", j, "is ",count, "\n")
+    count<-0
+  }
+  
+  print("tau update done")
+  #print(count)
+  return(exp_candpre)
+}
 
 
 #update Z
@@ -324,6 +381,26 @@ model<-function(N, dtm){
   result$tau<-tau
   #result$list1<-betalist
   #result$list2<-thetalist
+  print(proc.time() - ptm)
+  return(result)
+}
+
+# test tau
+model_tau<-function(N, dtm){
+  ptm <- proc.time()
+  result<-list()
+  beta0<-get_beta0()
+  tau<-get_tau()
+  theta<-get_theta(tau)
+  beta<-get_beta(beta0,tau)
+  for(i in 1:N){
+    cat("Iteration: ", i,"\n")
+    tau<-up_tau6(10,beta,beta0,theta,tau)  
+  }
+  result$beta0<-beta0
+  result$beta<-beta
+  result$theta<-theta
+  result$tau<-tau
   print(proc.time() - ptm)
   return(result)
 }
