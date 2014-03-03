@@ -18,3 +18,33 @@ per_lda15<-vector("numeric",length(g))
 for(per_i in 1:length(g)){
   per_lda15[per_i]<-perplexity(gibbs_lda[[3]],dtm_test[g[[per_i]],])
 }
+
+per_lda20<-vector("numeric",length(g))
+for(per_i in 1:length(g)){
+  per_lda20[per_i]<-perplexity(gibbs_lda[[4]],dtm_test[g[[per_i]],])
+}
+
+per_lda25<-vector("numeric",length(g))
+for(per_i in 1:length(g)){
+  per_lda25[per_i]<-perplexity(gibbs_lda[[5]],dtm_test[g[[per_i]],])
+}
+
+per_lda35<-vector("numeric",length(g))
+for(per_i in 1:length(g)){
+  per_lda35[per_i]<-perplexity(gibbs_lda[[6]],dtm_test[g[[per_i]],])
+}
+
+per_lda40<-vector("numeric",length(g))
+for(per_i in 1:length(g)){
+  per_lda40[per_i]<-perplexity(gibbs_lda[[7]],dtm_test[g[[per_i]],])
+}
+
+per_lda50<-vector("numeric",length(g))
+for(per_i in 1:length(g)){
+  per_lda50[per_i]<-perplexity(gibbs_lda[[8]],dtm_test[g[[per_i]],])
+}
+
+per_lda60<-vector("numeric",length(g))
+for(per_i in 1:length(g)){
+  per_lda60[per_i]<-perplexity(gibbs_lda[[9]],dtm_test[g[[per_i]],])
+}
